@@ -1,7 +1,12 @@
+# turns data files into one large data file
+# this will take a while
+# for RStudio set working directory to file location
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
 library(tidyverse)
 library(survival)
-library(muhaz)
 
+# get names of directories at top level of data
 dir.list <- list.files(path = "./data", pattern = NULL, all.files = FALSE,
                         full.names = TRUE, recursive = FALSE,
                         ignore.case = FALSE, include.dirs = TRUE, no.. = FALSE)
@@ -13,6 +18,7 @@ dataset <- do.call("rbind", lapply(dir.list, FUN = function(thedir) {
                           full.names = TRUE, recursive = TRUE,
                           ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE)
     temp <- do.call("rbind", lapply(file.list, FUN = function(thefile) {
+# print file name to show progress
        print(thefile)
          temp <- read.csv(thefile)[,1:5]
         temp$date <- lubridate::as_date(temp$date)

@@ -38,6 +38,8 @@ for (startyear in min(sumdata$year):(max(sumdata$year)-2)) {
   
   sumdata2 <- merge(sumdata,nodrives)
   sumdata2 <- sumdata2[(sumdata2$year==startyear) & (sumdata2$nodrives>2000),]
+  
+
   sumdata2$model <- factor(sumdata2$model)
   #browser()
   disks.fitall <- survfit(Surv(time,status)~model, data=sumdata2)
